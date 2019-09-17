@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BoggleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Board">
+    <Key>
+      <PropertyRef Name="BoggleBoxId" />
+    </Key>
+    <Property Name="BoggleBoxId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Letters" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BoggleGame">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="fk_BoggleBoxId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Score" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_BoggleGame_Board">
+    <End Role="Board" Type="Self.Board" Multiplicity="1" />
+    <End Role="BoggleGame" Type="Self.BoggleGame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Board">
+        <PropertyRef Name="BoggleBoxId" />
+      </Principal>
+      <Dependent Role="BoggleGame">
+        <PropertyRef Name="fk_BoggleBoxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BoggleModelStoreContainer">
+    <EntitySet Name="Board" EntityType="Self.Board" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BoggleGame" EntityType="Self.BoggleGame" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_BoggleGame_Board" Association="Self.FK_BoggleGame_Board">
+      <End Role="Board" EntitySet="Board" />
+      <End Role="BoggleGame" EntitySet="BoggleGame" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

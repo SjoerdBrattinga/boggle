@@ -1,0 +1,23 @@
+<div class="highscores" *ngIf="highscores">
+  <h2>
+    Highscores
+  </h2>
+
+  <table class="center">
+    <tr>
+      <th>Score</th>
+      <th>Player</th>
+      <th>Replay</th>
+    </tr>
+    <tr *ngFor="let game of highscores; let i = index" >
+      <td>{{game.score}}</td>
+      <td>{{game.playerName}}</td>
+      <td class="btn-column">        
+        <button type="button" class="btn btn-default btn-sm" (click)="playSelectedGame(i)">
+            <i class="fa fa-repeat"></i>
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+

@@ -1,0 +1,9 @@
+<div class="score">
+  <h6 class="score-text">Score: {{score}}</h6>
+  <h6 class="found-words-text">Found words: {{foundWords.length}}</h6>
+  <div class="words">
+    <ul *ngFor="let word of foundWords">
+      <li>{{word}}</li>
+    </ul>
+  </div>
+</div>

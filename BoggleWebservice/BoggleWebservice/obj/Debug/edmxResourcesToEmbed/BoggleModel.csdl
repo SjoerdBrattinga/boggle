@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BoggleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Board">
+    <Key>
+      <PropertyRef Name="BoggleBoxId" />
+    </Key>
+    <Property Name="BoggleBoxId" Type="Guid" Nullable="false" />
+    <Property Name="Letters" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="BoggleGame" Relationship="Self.FK_BoggleGame_Board" FromRole="Board" ToRole="BoggleGame" />
+  </EntityType>
+  <EntityType Name="BoggleGame">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fk_BoggleBoxId" Type="Guid" Nullable="false" />
+    <Property Name="Score" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Board" Relationship="Self.FK_BoggleGame_Board" FromRole="BoggleGame" ToRole="Board" />
+  </EntityType>
+  <Association Name="FK_BoggleGame_Board">
+    <End Role="Board" Type="Self.Board" Multiplicity="1" />
+    <End Role="BoggleGame" Type="Self.BoggleGame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Board">
+        <PropertyRef Name="BoggleBoxId" />
+      </Principal>
+      <Dependent Role="BoggleGame">
+        <PropertyRef Name="fk_BoggleBoxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BoggleDbContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Board" EntityType="Self.Board" />
+    <EntitySet Name="BoggleGame" EntityType="Self.BoggleGame" />
+    <AssociationSet Name="FK_BoggleGame_Board" Association="Self.FK_BoggleGame_Board">
+      <End Role="Board" EntitySet="Board" />
+      <End Role="BoggleGame" EntitySet="BoggleGame" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

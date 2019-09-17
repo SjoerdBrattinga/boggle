@@ -1,0 +1,26 @@
+<div class="row" *ngIf="playing && boggleBox">
+  <div class="col">
+    <div class="game">
+      <app-timer (timerStopped)="timerStopped($event)" *ngIf="playing"></app-timer>
+      <app-board [boggleBox]="boggleBox" (wordFound)="wordFound($event)"></app-board>
+    </div>    
+  </div>
+  <div class="col">
+    <div class="score">
+      <app-score [foundWords]="foundWords" [score]="boggleGame.score"></app-score>  
+    </div>    
+  </div>  
+</div>
+
+<form class="form-inline justify-content-center" *ngIf="!playing" >
+  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="boggleGame.name" name="name">
+  <button class="btn btn-defeault" (click)="startGame()">{{playing ? 'new' : 'start'}}</button>     
+</form>
+
+<app-highscores *ngIf="!playing" (gameSelected)="replayGame($event)"></app-highscores>
+
+
+
+
+
+

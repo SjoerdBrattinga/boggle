@@ -1,0 +1,14 @@
+<div class="grid">
+  <div class="row" *ngFor="let row of board">
+      <div class="cell" (click)="onDieClick(die)" *ngFor="let die of row">
+        <div class="inner" [ngClass]="{'isUsed':die.selected}">
+          {{die.value}}
+        </div>      
+      </div>
+  </div>
+  <div class="word">
+    Word: {{word}}
+  </div>
+  <button class="btn btn-defeault" (click)="clearWord()">Clear</button>
+  <button class="btn btn-defeault" (click)="submitWord()">Submit</button>  
+</div>

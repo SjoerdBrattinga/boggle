@@ -1,0 +1,51 @@
+div.grid{
+    display:inline-block;    
+}
+
+.grid {
+    margin: 0 auto;
+    width: 40vw;
+    max-width: 30vh;
+    height: 40vw;
+    max-height: 30vh;
+    font-size: 1rem;
+}
+.row {
+    display: flex;
+}
+
+.cell {
+    cursor: pointer;
+    background: orange;
+    margin: 5px;
+    color: white;
+    font-weight: bold;
+    flex: 1 0 auto;
+    position: relative;
+    user-select: none;
+}
+
+.cell .isUsed {
+    background: orangered;
+}
+
+.cell:after {
+    content: "";
+    float:left;
+    display: block;
+    padding-top: 100%;
+}
+.cell .inner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.word {
+    text-align: left;
+}

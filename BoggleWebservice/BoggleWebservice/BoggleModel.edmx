@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BoggleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Board">
+          <Key>
+            <PropertyRef Name="BoggleBoxId" />
+          </Key>
+          <Property Name="BoggleBoxId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Letters" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BoggleGame">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="fk_BoggleBoxId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BoggleGame_Board">
+          <End Role="Board" Type="Self.Board" Multiplicity="1" />
+          <End Role="BoggleGame" Type="Self.BoggleGame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Board">
+              <PropertyRef Name="BoggleBoxId" />
+            </Principal>
+            <Dependent Role="BoggleGame">
+              <PropertyRef Name="fk_BoggleBoxId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BoggleModelStoreContainer">
+          <EntitySet Name="Board" EntityType="Self.Board" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BoggleGame" EntityType="Self.BoggleGame" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BoggleGame_Board" Association="Self.FK_BoggleGame_Board">
+            <End Role="Board" EntitySet="Board" />
+            <End Role="BoggleGame" EntitySet="BoggleGame" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BoggleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Board">
+          <Key>
+            <PropertyRef Name="BoggleBoxId" />
+          </Key>
+          <Property Name="BoggleBoxId" Type="Guid" Nullable="false" />
+          <Property Name="Letters" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BoggleGame" Relationship="Self.FK_BoggleGame_Board" FromRole="Board" ToRole="BoggleGame" />
+        </EntityType>
+        <EntityType Name="BoggleGame">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fk_BoggleBoxId" Type="Guid" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Board" Relationship="Self.FK_BoggleGame_Board" FromRole="BoggleGame" ToRole="Board" />
+        </EntityType>
+        <Association Name="FK_BoggleGame_Board">
+          <End Role="Board" Type="Self.Board" Multiplicity="1" />
+          <End Role="BoggleGame" Type="Self.BoggleGame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Board">
+              <PropertyRef Name="BoggleBoxId" />
+            </Principal>
+            <Dependent Role="BoggleGame">
+              <PropertyRef Name="fk_BoggleBoxId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BoggleDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Board" EntityType="Self.Board" />
+          <EntitySet Name="BoggleGame" EntityType="Self.BoggleGame" />
+          <AssociationSet Name="FK_BoggleGame_Board" Association="Self.FK_BoggleGame_Board">
+            <End Role="Board" EntitySet="Board" />
+            <End Role="BoggleGame" EntitySet="BoggleGame" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BoggleModelStoreContainer" CdmEntityContainer="BoggleDbContext">
+          <EntitySetMapping Name="Board">
+            <EntityTypeMapping TypeName="BoggleModel.Board">
+              <MappingFragment StoreEntitySet="Board">
+                <ScalarProperty Name="BoggleBoxId" ColumnName="BoggleBoxId" />
+                <ScalarProperty Name="Letters" ColumnName="Letters" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BoggleGame">
+            <EntityTypeMapping TypeName="BoggleModel.BoggleGame">
+              <MappingFragment StoreEntitySet="BoggleGame">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="fk_BoggleBoxId" ColumnName="fk_BoggleBoxId" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

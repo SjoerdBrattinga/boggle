@@ -1,0 +1,8 @@
+button {
+    cursor: pointer;
+}
+
+.center {
+    margin-left: auto; 
+    margin-right: auto;
+}
